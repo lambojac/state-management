@@ -1,34 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 
 function App() {
-  const [state, setState] = useState({ count: 4, theme: "blue" });
+  const [resourceType, setResourceType] = useState('posts');
+  const [items, setItems] = useState([]);
 
-  function decrementCount() {
-    setState(prevState => {
-      return { ...prevState, count: prevState.count - 1 };
-    });
-  }
-
-  function incrementCount() {
-    setState(prevState => {
-      return { ...prevState, count: prevState.count + 1 };
-    });
-  }
+  // useEffect to fetch data whenever resourceType changes
+  useEffect(() => {
+    fetch(`https://jsonplaceholder.typicode.com/${resourceType}`)
+      .then(response => response.json())
+      .then(data => setItems(data));
+  }, [resourceType]);
 
   return (
     <>
-      <span>{state.theme}</span>
-      <span>{state.count}</span>
-      <button onClick={decrementCount}>-</button>
-      <button onClick={incrementCount}>+</button>
+      <div>
+        <button onClick={() => setResourceType('posts')}>Posts</button>
+        <button onClick={() => setResourceType('users')}>Users</button>
+        <button onClick={() => setResourceType('comments')}>Comments</button>
+      </div>
+      <h1>{resourceType}</h1>
+      {items.map(item => {
+        return <pre key={item.id}>{JSON.stringify(item, null, 2)}</pre>;
+      })}
     </>
   );
 }
 
 export default App;
-
-
-
