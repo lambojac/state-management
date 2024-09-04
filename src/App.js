@@ -17,7 +17,7 @@ function App() {
     <>
       <div>
         <button onClick={() => setResourceType('posts')}>Posts</button>
-        <button onClick={() => setResourceType('users')}>Users</button>
+        <button onClick={() => setResourceType('users')}>User</button>
         <button onClick={() => setResourceType('comments')}>Comments</button>
       </div>
       <h1>{resourceType}</h1>
